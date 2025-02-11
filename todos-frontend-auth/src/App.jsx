@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Todo from "./components/Todo";
 import todoService from "./services/todos";
 import loginService from "./services/login";
+import Notification from "./components/Notification";
+import "./App.css"
 
 const App = () => {
   const [todos, setTodos] = useState([]);
@@ -11,6 +13,8 @@ const App = () => {
 
   const [userObject, setUserObject] = useState(null);
 
+  const [notification, setNotification] = useState(null);
+
   useEffect(() => {
     todoService.getTodos().then((todos) => setTodos(todos));
   }, []);
@@ -19,6 +23,7 @@ const App = () => {
     event.preventDefault();
     try {
       const user = await loginService.login({ username, password });
+      setNotification({ message: "Login Successfull", type: "info" });
       setUserObject(user);
       console.log("Login Successfull");
       console.log(user);
@@ -32,6 +37,7 @@ const App = () => {
   return (
     <div>
       <h2>Todo App</h2>
+      <Notification notification={notification} />
       <form onSubmit={handleLogin}>
         <div>
           username{" "}
