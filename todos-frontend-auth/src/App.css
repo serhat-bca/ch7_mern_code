@@ -1,0 +1,17 @@
+.notification {
+  position: relative;
+  padding: 5px;
+  margin: 10px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 5px;
+  color: white;
+}
+
+.warning {
+  background-color: #f5a623;
+}
+
+.info {
+  background-color: #4caf50;
+}
