@@ -27,8 +27,7 @@ const App = () => {
       const user = await loginService.login({ username, password });
       setNotification({ message: "Login Successfull", type: "info" });
       setUserObject(user);
-      console.log("Login Successfull");
-      console.log(user);
+      localStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
       setNotification({ message: "Invalid Credentials", type: "warning" });
     }
@@ -82,6 +81,7 @@ const App = () => {
         message: `${createdTodo.task} is added`,
         type: "info",
       });
+      setTodos([...todos, createdTodo]);
     } catch (error) {
       setNotification({ message: "Add Failed", type: "warning" });
     }
