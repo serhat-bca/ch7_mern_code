@@ -6,4 +6,14 @@ const getTodos = async () => {
   return response.data;
 };
 
-export default { getTodos };
+const addTodo = async (todo, token) => {
+  const authorization = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.post(API_URL, todo, authorization);
+  return response.data;
+};
+
+export default { getTodos, addTodo };
