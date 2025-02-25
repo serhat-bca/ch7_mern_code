@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import Todo from "./components/Todo";
 import todoService from "./services/todos";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
+import TodoForm from "./components/TodoForm";
+import TodoList from "./components/TodoList";
+import GreetingLogout from "./components/GreetingLogout";
 import "./App.css";
 
 const App = () => {
@@ -46,17 +48,6 @@ const App = () => {
     setPassword("");
   };
 
-  const todoForm = () => (
-    <form onSubmit={handleTodo}>
-      <input
-        type="text"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-      />
-      <button type="submit">Add to the list</button>
-    </form>
-  );
-
   const handleTodo = async (event) => {
     event.preventDefault();
     console.log(task);
@@ -74,13 +65,6 @@ const App = () => {
     setTask("");
   };
 
-  const greetingLogout = () => (
-    <div>
-      <em>Howdy, {userObject.username}!</em>
-      <button onClick={handleLogout}>Log out</button>
-    </div>
-  );
-
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUserObject(null);
@@ -90,9 +74,11 @@ const App = () => {
     <div>
       <h2>Todo App</h2>
       <Notification notification={notification} />
-      {userObject && greetingLogout()}
+      {userObject && (
+        <GreetingLogout userObject={userObject} handleLogout={handleLogout} />
+      )}
       {userObject ? (
-        todoForm()
+        <TodoForm handleTodo={handleTodo} task={task} setTask={setTask} />
       ) : (
         <LoginForm
           handleLogin={handleLogin}
@@ -102,10 +88,7 @@ const App = () => {
           setPassword={setPassword}
         />
       )}
-      <h3>Todo List</h3>
-      {todos.map((todo) => (
-        <Todo key={todo.id} todo={todo} />
-      ))}
+      <TodoList todos={todos} />
     </div>
   );
 };
