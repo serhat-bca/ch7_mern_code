@@ -21,6 +21,13 @@ const App = () => {
     todoService.getTodos().then((todos) => setTodos(todos));
   }, []);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUserObject(JSON.parse(storedUser));
+    }
+  }, []);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -38,27 +45,7 @@ const App = () => {
     setPassword("");
   };
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username{" "}
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <button type="submit">Log In</button>
-    </form>
-  );
+  
 
   const todoForm = () => (
     <form onSubmit={handleTodo}>
@@ -88,11 +75,23 @@ const App = () => {
     setTask("");
   };
 
+  const greetingLogout = () => (
+    <div>
+      <em>Howdy, {userObject.username}!</em>
+      <button onClick={handleLogout}>Log out</button>
+    </div>
+  );
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUserObject(null);
+  };
+
   return (
     <div>
       <h2>Todo App</h2>
       <Notification notification={notification} />
-      {userObject && <em>Howdy, {userObject.username}!</em>}
+      {userObject && greetingLogout()}
       {userObject ? todoForm() : loginForm()}
       <h3>Todo List</h3>
       {todos.map((todo) => (
