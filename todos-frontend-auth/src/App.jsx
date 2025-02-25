@@ -3,6 +3,7 @@ import Todo from "./components/Todo";
 import todoService from "./services/todos";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
+import LoginForm from "./components/LoginForm";
 import "./App.css";
 
 const App = () => {
@@ -44,8 +45,6 @@ const App = () => {
     setUsername("");
     setPassword("");
   };
-
-  
 
   const todoForm = () => (
     <form onSubmit={handleTodo}>
@@ -92,7 +91,17 @@ const App = () => {
       <h2>Todo App</h2>
       <Notification notification={notification} />
       {userObject && greetingLogout()}
-      {userObject ? todoForm() : loginForm()}
+      {userObject ? (
+        todoForm()
+      ) : (
+        <LoginForm
+          handleLogin={handleLogin}
+          username={username}
+          setUsername={setUsername}
+          password={password}
+          setPassword={setPassword}
+        />
+      )}
       <h3>Todo List</h3>
       {todos.map((todo) => (
         <Todo key={todo.id} todo={todo} />
