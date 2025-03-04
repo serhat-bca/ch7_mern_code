@@ -6,6 +6,7 @@ import LoginForm from "./components/LoginForm";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 import GreetingLogout from "./components/GreetingLogout";
+import Section from "./components/Section";
 import "./App.css";
 
 const App = () => {
@@ -88,7 +89,9 @@ const App = () => {
           setPassword={setPassword}
         />
       )}
-      <TodoList todos={todos} />
+      <Section componentTitle="Todo List">
+        <TodoList todos={todos} />
+      </Section>
     </div>
   );
 };
