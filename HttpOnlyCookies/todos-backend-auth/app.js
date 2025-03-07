@@ -4,6 +4,7 @@ require("express-async-errors");
 const cors = require("cors");
 const { errorHandler, requestLogger } = require("./utils/middleware");
 const logger = require("./utils/logger");
+const cookieParser = require("cookie-parser");
 // routes
 const todosRouter = require("./routes/todos");
 const usersRouter = require("./routes/users");
@@ -30,7 +31,7 @@ mongoose
 app.use(cors());
 app.use(express.json());
 app.use(express.static("dist"));
-
+app.use(cookieParser());
 // utilize requestLogger middleware
 app.use(requestLogger);
 app.use("/api/todos", todosRouter);

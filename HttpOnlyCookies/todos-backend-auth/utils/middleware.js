@@ -1,4 +1,6 @@
 const logger = require("./logger");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const requestLogger = (req, res, next) => {
   logger.log(`Request Method: ${req.method}`);
@@ -26,4 +28,12 @@ const errorHandler = (error, req, res, next) => {
   next(error);
 };
 
-module.exports = { requestLogger, errorHandler };
+const authenticateToken = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ error: "unauthorized" });
+  const user = jwt.verify(token, process.env.JWT_SECRET);
+  req.user = user;
+  next();
+};
+
+module.exports = { requestLogger, errorHandler, authenticateToken };
