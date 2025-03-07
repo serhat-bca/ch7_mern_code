@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const usersRouter = require("express").Router();
 const User = require("../models/user");
+const { authenticateToken } = require("../utils/middleware");
 
 usersRouter.post("/", async (req, res) => {
   const { username, name, password } = req.body;
@@ -23,6 +24,10 @@ usersRouter.post("/", async (req, res) => {
 usersRouter.get("/", async (req, res) => {
   const users = await User.find({}).populate("todos", { task: 1, done: 1 });
   res.json(users);
+});
+
+usersRouter.get("/protected", authenticateToken, (req, res) => {
+  res.status(200).json({ message: "Ok", user: req.user });
 });
 
 module.exports = usersRouter;
