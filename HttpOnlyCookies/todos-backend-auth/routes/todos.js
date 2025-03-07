@@ -4,6 +4,7 @@ const Todo = require("../models/todo");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const { authenticateToken } = require("../utils/middleware");
 
 const extractToken = (req) => {
   const authHeader = req.get("authorization");
@@ -11,12 +12,9 @@ const extractToken = (req) => {
   return authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
 };
 
-todosRouter.post("/", async (req, res) => {
+todosRouter.post("/", authenticateToken, async (req, res) => {
   const { task, done } = req.body;
-  const tokenPayload = jwt.verify(extractToken(req), process.env.JWT_SECRET);
-  if (!tokenPayload.id) return res.status(401).json({ error: "invalid token" });
-
-  const user = await User.findById(tokenPayload.id);
+  const user = await User.findById(req.user.id);
   if (!user) {
     return res.status(404).json({ error: "user not found" });
   }

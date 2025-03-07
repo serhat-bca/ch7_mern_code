@@ -36,4 +36,9 @@ authRouter.post("/login", async (req, res) => {
     .json({ username: user.username, name: user.name, id: user._id });
 });
 
+authRouter.post("/logout", (req, res) => {
+  res.clearCookie("token", { httpOnly: true, sameSite: "strict" });
+  res.json({ message: "Logged out" });
+});
+
 module.exports = authRouter;
