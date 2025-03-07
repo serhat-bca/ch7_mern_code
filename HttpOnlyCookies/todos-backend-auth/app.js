@@ -7,7 +7,7 @@ const logger = require("./utils/logger");
 // routes
 const todosRouter = require("./routes/todos");
 const usersRouter = require("./routes/users");
-const loginRouter = require("./routes/login");
+const authRouter = require("./routes/auth");
 // Todo model
 const Todo = require("./models/todo");
 
@@ -35,7 +35,7 @@ app.use(express.static("dist"));
 app.use(requestLogger);
 app.use("/api/todos", todosRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/login", loginRouter);
+app.use("/api/auth", authRouter);
 
 app.use(errorHandler);
 
