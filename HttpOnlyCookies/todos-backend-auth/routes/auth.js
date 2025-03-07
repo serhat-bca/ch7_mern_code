@@ -4,7 +4,7 @@ const authRouter = require("express").Router();
 const User = require("../models/user");
 require("dotenv").config();
 
-authRouter.post("/", async (req, res) => {
+authRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   const user = await User.findOne({ username: username });
@@ -22,11 +22,18 @@ authRouter.post("/", async (req, res) => {
     id: user._id,
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET);
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    maxAge: 60 * 60 * 1000,
+    sameSite: "strict",
+  });
 
   res
     .status(200)
-    .json({ token: token, username: user.username, name: user.name });
+    .json({ username: user.username, name: user.name, id: user._id });
 });
 
 module.exports = authRouter;
