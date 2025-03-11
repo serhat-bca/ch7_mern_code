@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const authRouter = require("express").Router();
 const User = require("../models/user");
 require("dotenv").config();
+const { authenticateToken } = require("../utils/middleware");
 
 authRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -39,6 +40,10 @@ authRouter.post("/login", async (req, res) => {
 authRouter.post("/logout", (req, res) => {
   res.clearCookie("token", { httpOnly: true, sameSite: "strict" });
   res.json({ message: "Logged out" });
+});
+
+authRouter.get("/me", authenticateToken, (req, res) => {
+  res.json({ username: req.user.username, id: req.user.id });
 });
 
 module.exports = authRouter;
