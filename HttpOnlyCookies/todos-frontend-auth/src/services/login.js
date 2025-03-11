@@ -11,4 +11,11 @@ const login = async (userCredentials) => {
   return loginResponse.data;
 };
 
-export default { login };
+const fetchUser = async () => {
+  const userInfo = await axios.get(`${LOGIN_ENDPOINT}/me`, {
+    withCredentials: true,
+  });
+  return userInfo.data;
+};
+
+export default { login, fetchUser };

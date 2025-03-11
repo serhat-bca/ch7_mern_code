@@ -26,10 +26,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUserObject(JSON.parse(storedUser));
-    }
+    loginService.fetchUser().then((userData) => setUserObject(userData));
   }, []);
 
   const handleLogin = async (event) => {
