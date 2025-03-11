@@ -50,7 +50,7 @@ const App = () => {
     console.log(task);
     const todo = { task, done: false };
     try {
-      const createdTodo = await todoService.addTodo(todo, userObject.token);
+      const createdTodo = await todoService.addTodo(todo);
       setNotification({
         message: `${createdTodo.task} is added`,
         type: "info",

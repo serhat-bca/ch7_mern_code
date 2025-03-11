@@ -6,13 +6,10 @@ const getTodos = async () => {
   return response.data;
 };
 
-const addTodo = async (todo, token) => {
-  const authorization = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await axios.post(API_URL, todo, authorization);
+const addTodo = async (todo) => {
+  const response = await axios.post(API_URL, todo, {
+    withCredentials: true
+  });
   return response.data;
 };
 
