@@ -18,4 +18,11 @@ const fetchUser = async () => {
   return userInfo.data;
 };
 
-export default { login, fetchUser };
+const logout = async () => {
+  const logoutResponse = await axios.post(`${LOGIN_ENDPOINT}/logout`, {
+    withCredentials: true,
+  });
+  return logoutResponse.data;
+};
+
+export default { login, fetchUser, logout };

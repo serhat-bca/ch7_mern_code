@@ -35,7 +35,6 @@ const App = () => {
       const user = await loginService.login({ username, password });
       setNotification({ message: "Login Successfull", type: "info" });
       setUserObject(user);
-      localStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
       setNotification({ message: "Invalid Credentials", type: "warning" });
     }
@@ -63,8 +62,8 @@ const App = () => {
     setTask("");
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
+  const handleLogout = async () => {
+    await loginService.logout();
     setUserObject(null);
   };
 
